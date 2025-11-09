@@ -68,7 +68,7 @@ nav ul li a:hover {
     display: none;
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.6s ease;
+    transition: all 0.5s ease;
 }
 
 #info-box.show {
@@ -144,14 +144,10 @@ footer a { color: #4A90E2; text-decoration: none; }
 .bot-msg { text-align: left; }
 
 @keyframes fadeInUp {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive tweaks */
-@media (max-width: 600px) {
-    #chatbot { width: 90%; left: 5%; }
-    nav ul { flex-direction: column; }
-    nav ul li a { margin-bottom: 5px; }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
 </head>
@@ -200,15 +196,18 @@ const infoContent = {
 
 let currentSection = null;
 
-// Smooth toggle info box
-async function toggleInfo(section) {
+function toggleInfo(section) {
     if(currentSection === section) return;
 
     if(infoBox.classList.contains('show')) {
         infoBox.classList.remove('show');
-        await new Promise(r => setTimeout(r, 300)); // wait for slide up
+        setTimeout(()=>displayInfo(section), 500);
+    } else {
+        displayInfo(section);
     }
+}
 
+function displayInfo(section) {
     infoBox.innerHTML = infoContent[section];
     infoBox.classList.add('show');
     welcomeText.style.display = 'none';
@@ -216,9 +215,8 @@ async function toggleInfo(section) {
     window.scrollTo({ top: infoBox.offsetTop - 20, behavior: 'smooth' });
 }
 
-// Click outside to hide info box
 document.addEventListener('click', function(e) {
-    if(!infoBox.contains(e.target) && !e.target.closest('nav')) {
+    if(!infoBox.contains(e.target) && !e.target.matches('nav a')) {
         infoBox.classList.remove('show');
         welcomeText.style.display = 'block';
         currentSection = null;
@@ -227,14 +225,12 @@ document.addEventListener('click', function(e) {
 
 // GPT Chatbot
 async function sendMessage() {
-    const inputEl = document.getElementById('userInput');
-    let input = inputEl.value.trim();
+    const inputElem = document.getElementById('userInput');
+    const input = inputElem.value.trim();
     if(!input) return;
 
     const messages = document.getElementById('chat-messages');
     messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
-
-    inputEl.value = '';
 
     try {
         const response = await fetch('http://localhost:3000/chat', {
@@ -245,16 +241,15 @@ async function sendMessage() {
 
         const data = await response.json();
         messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${data.reply}</div>`;
-        messages.scrollTop = messages.scrollHeight;
     } catch (err) {
-        console.error(err);
         messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> Sorry, something went wrong.</div>`;
-        messages.scrollTop = messages.scrollHeight;
     }
+
+    inputElem.value = '';
+    messages.scrollTop = messages.scrollHeight;
 }
 </script>
 
-<!-- Tawk.to -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
