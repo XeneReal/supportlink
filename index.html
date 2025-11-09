@@ -1,247 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SupportLink - Personal Growth & Wellbeing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupportLink - Personal Growth & Wellbeing</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        background-color: #f9f9f9;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
-        /* Header */
-        header {
-            background-color: #4A90E2;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        header img {
-            height: 60px;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-        header h1 {
-            margin: 0 0 10px 0;
-            display: inline;
-        }
-        header p {
-            font-size: 1.2em;
-        }
+    header {
+        background-color: #4A90E2;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+        position: relative;
+    }
+    header img {
+        height: 60px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    header h1 {
+        margin: 0;
+        display: inline;
+    }
 
-        /* Navigation */
-        nav {
-            background-color: #2C3E50;
-        }
-        nav ul {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            list-style: none;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0;
-        }
-        nav ul li a {
-            display: block;
-            padding: 15px 20px;
-            color: white;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-        nav ul li a:hover {
-            background-color: #4A90E2;
-        }
+    nav {
+        background-color: #2C3E50;
+    }
+    nav ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        justify-content: center;
+    }
+    nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        transition: background 0.3s;
+        cursor: pointer;
+    }
+    nav ul li a:hover {
+        background-color: #4A90E2;
+    }
 
-        /* Sections */
-        section {
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: auto;
-        }
-        h2 {
-            color: #4A90E2;
-        }
-        ul.services {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
+    /* Central info box */
+    #info-box {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: white;
+        border: 2px solid #4A90E2;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        display: none;
+        animation: slideUp 0.5s ease forwards;
+    }
 
-        /* Footer */
-        footer {
-            background-color: #2C3E50;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        footer a {
-            color: #4A90E2;
-            text-decoration: none;
-        }
+    @keyframes slideUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
 
-        /* Chatbot styles */
-        #chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            max-height: 400px;
-            background-color: white;
-            border: 2px solid #4A90E2;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            font-size: 0.9em;
-        }
-        #chatbot-header {
-            background-color: #4A90E2;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-        #chat-messages {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-        }
-        #chat-input {
-            display: flex;
-            border-top: 1px solid #ccc;
-        }
-        #chat-input input {
-            flex: 1;
-            border: none;
-            padding: 10px;
-            font-size: 0.9em;
-        }
-        #chat-input button {
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-        #chat-input button:hover {
-            background-color: #357ABD;
-        }
-        .user-msg {
-            text-align: right;
-            margin: 5px 0;
-        }
-        .bot-msg {
-            text-align: left;
-            margin: 5px 0;
-        }
-    </style>
+    #welcome-text {
+        text-align: center;
+        font-size: 1.5em;
+        margin: 100px 20px;
+        color: #333;
+    }
+
+    footer {
+        background-color: #2C3E50;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: auto;
+    }
+    footer a {
+        color: #4A90E2;
+        text-decoration: none;
+    }
+
+    /* Chatbot left side */
+    #chatbot {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 300px;
+        max-height: 400px;
+        background-color: white;
+        border: 2px solid #4A90E2;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        font-size: 0.9em;
+        z-index: 1000;
+    }
+    #chatbot-header {
+        background-color: #4A90E2;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+    #chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+    }
+    #chat-input {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+    #chat-input input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    #chat-input button {
+        background-color: #4A90E2;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+    #chat-input button:hover {
+        background-color: #357ABD;
+    }
+    .user-msg {
+        text-align: right;
+        margin: 5px 0;
+    }
+    .bot-msg {
+        text-align: left;
+        margin: 5px 0;
+    }
+
+</style>
 </head>
 <body>
 
-    <!-- Header with logo placeholder -->
-    <header>
-        <!-- Replace src with your friend's logo later -->
-        <img src="logo.png" alt="SupportLink Logo">
-        <h1>Welcome to SupportLink</h1>
-        <p>Your Partner in Personal Growth and Wellbeing</p>
-    </header>
+<header>
+    <img src="logo.png" alt="SupportLink Logo">
+    <h1>Welcome to SupportLink</h1>
+</header>
 
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="#mission">Mission</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#community">Join Our Community</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a onclick="showInfo('mission')">Mission</a></li>
+        <li><a onclick="showInfo('services')">Services</a></li>
+        <li><a onclick="showInfo('community')">Community</a></li>
+    </ul>
+</nav>
 
-    <!-- Mission Section -->
-    <section id="mission">
-        <h2>Our Mission</h2>
-        <p>Our mission is to provide accessible, high-quality support services that foster emotional wellbeing, resilience, and success. We believe that everyone deserves a supportive and non-judgmental space to explore their thoughts, feelings, and concerns.</p>
-    </section>
+<div id="welcome-text">Your Partner in Personal Growth and Wellbeing</div>
 
-    <!-- Services Section -->
-    <section id="services">
-        <h2>Our Services</h2>
-        <p>We offer a comprehensive range of services, including:</p>
-        <ul class="services">
-            <li><strong>Free Expert Advice:</strong> Guidance and support to help you navigate life's challenges.</li>
-            <li><strong>No-Cost Therapy Sessions:</strong> Licensed therapists will work with you to build resilience and achieve your personal goals.</li>
-            <li><strong>Venting and Support:</strong> Sometimes, all you need is someone to listen. We're here to offer a supportive ear.</li>
-            <li><strong>Additional Resources:</strong> Stay tuned for updates on new resources and initiatives!</li>
-        </ul>
-        <p>All our services are:</p>
-        <ul class="services">
-            <li><strong>No Payment:</strong> Completely free, no costs or fees.</li>
-            <li><strong>No Hidden Fees:</strong> Fully transparent.</li>
-            <li><strong>Donation-Based:</strong> We welcome donations to support our mission.</li>
-        </ul>
-    </section>
+<div id="info-box"></div>
 
-    <!-- Community Section -->
-    <section id="community">
-        <h2>Join Our Community</h2>
-        <p>If you're looking for a supportive and non-judgmental space to explore your thoughts, feelings, and concerns, we're here for you. Contact us today to learn more about our services and how we can support you on your journey to personal growth and wellbeing.</p>
-        <p><a href="mailto:contact@supportlink.org">Contact Us</a></p>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 SupportLink. All rights reserved.</p>
-    </footer>
-
-    <!-- Chatbot -->
-    <div id="chatbot">
-        <div id="chatbot-header">Chat with SupportLink</div>
-        <div id="chat-messages"></div>
-        <div id="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+<!-- Chatbot -->
+<div id="chatbot">
+    <div id="chatbot-header">Chat with SupportLink</div>
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
     </div>
+</div>
 
-    <script>
-        function sendMessage() {
-            let input = document.getElementById('userInput').value.trim();
-            if(!input) return;
+<footer>
+    <p>&copy; 2025 SupportLink. All rights reserved.</p>
+    <p><a href="mailto:contact@supportlink.org">Contact Us</a></p>
+    <p>Join our <a href="https://discord.gg/54UTv5M8Gw" target="_blank">Discord server</a> for updates and more!</p>
+</footer>
 
-            let messages = document.getElementById('chat-messages');
-            messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
+<script>
+    const infoBox = document.getElementById('info-box');
+    const welcomeText = document.getElementById('welcome-text');
 
-            // Simple bot responses
-            let response = "I'm here to listen. Could you tell me more?";
-            if(input.toLowerCase().includes("stress")) response = "Try taking deep breaths and a short break. You're doing your best!";
-            else if(input.toLowerCase().includes("anxiety")) response = "Remember, you're not alone. Talking helps!";
-            else if(input.toLowerCase().includes("help")) response = "We are here to support you. You can also chat with a human using the live chat.";
+    const infoContent = {
+        mission: "<h2>Our Mission</h2><p>Our mission is to provide accessible, high-quality support services that foster emotional wellbeing, resilience, and success. We believe everyone deserves a supportive and non-judgmental space to explore their thoughts, feelings, and concerns.</p>",
+        services: "<h2>Our Services</h2><ul><li><strong>Free Expert Advice:</strong> Guidance and support to help you navigate life's challenges.</li><li><strong>No-Cost Therapy Sessions:</strong> Licensed therapists will work with you to build resilience and achieve your personal goals.</li><li><strong>Venting and Support:</strong> Sometimes, all you need is someone to listen. We're here to offer a supportive ear.</li><li><strong>Additional Resources:</strong> Stay tuned for updates on new resources and initiatives!</li></ul>",
+        community: "<h2>Join Our Community</h2><p>If you're looking for a supportive and non-judgmental space, we're here for you. Contact us to learn more about our services.</p>"
+    };
 
-            messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${response}</div>`;
-            document.getElementById('userInput').value = '';
-            messages.scrollTop = messages.scrollHeight; // auto-scroll
+    function showInfo(section) {
+        infoBox.innerHTML = infoContent[section];
+        infoBox.style.display = 'block';
+        welcomeText.style.display = 'none';
+        window.scrollTo({ top: infoBox.offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function hideInfo() {
+        infoBox.style.display = 'none';
+        welcomeText.style.display = 'block';
+    }
+
+    // Optional: click outside the box hides it
+    document.addEventListener('click', function(e) {
+        if(!infoBox.contains(e.target) && !e.target.matches('nav a')) {
+            hideInfo();
         }
-    </script>
+    });
 
-    <!-- Tawk.to Chat Widget -->
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/69102fee0345ae195a0f5bd3/1j9jjmemu';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
+    // Chatbot JS
+    function sendMessage() {
+        let input = document.getElementById('userInput').value.trim();
+        if(!input) return;
+
+        let messages = document.getElementById('chat-messages');
+        messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
+
+        // Simple bot responses
+        let response = "I'm here to listen. Could you tell me more?";
+        if(input.toLowerCase().includes("stress")) response = "Try taking deep breaths and a short break. You're doing your best!";
+        else if(input.toLowerCase().includes("anxiety")) response = "Remember, you're not alone. Talking helps!";
+        else if(input.toLowerCase().includes("help")) response = "We are here to support you. You can also chat with a human using the live chat.";
+
+        messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${response}</div>`;
+        document.getElementById('userInput').value = '';
+        messages.scrollTop = messages.scrollHeight; // auto-scroll
+    }
+
+</script>
+
+<!-- Tawk.to Script -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69102fee0345ae195a0f5bd3/1j9jjmemu';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
 
 </body>
 </html>
