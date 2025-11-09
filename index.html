@@ -1,255 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SupportLink - Personal Growth & Wellbeing</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SupportLink — Personal Growth & Wellbeing</title>
+
+<!-- Fallbacks included; 'Funtastic' is applied if available -->
 <link href="https://fonts.googleapis.com/css2?family=Funtastic&display=swap" rel="stylesheet">
 <style>
-body {
-    margin: 0;
-    font-family: 'Funtastic', cursive;
-    background-color: #1E3A5F;
-    color: #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+  :root{
+    --accent:#4A90E2;
+    --nav:#2C3E50;
+    --bg-start:#133454; /* gradient start */
+    --bg-end:#1E3A5F;   /* gradient end */
+    --card:#112838;
+    --muted:#cfdff6;
+    --glass: rgba(255,255,255,0.04);
+    --radius:12px;
+  }
 
-header {
-    background-color: #4A90E2;
-    color: white;
-    padding: 60px 20px;
-    text-align: center;
-}
-header img { height: 60px; vertical-align: middle; margin-right: 10px; }
-header h1 { margin: 0; display: inline; }
+  /* Reset & base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: 'Funtastic', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,var(--bg-start), var(--bg-end));
+    color:var(--muted);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
 
-nav {
-    background-color: #2C3E50;
-}
-nav ul {
-    margin: 0; padding: 0;
-    display: flex; list-style: none; justify-content: center;
-}
-nav ul li a {
-    display: block;
-    padding: 15px 25px;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border-radius: 5px;
-}
-nav ul li a:hover {
-    background-color: #357ABD;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
+  /* Header */
+  header{
+    padding:48px 20px;
+    text-align:center;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  header .brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  header img{height:64px;width:auto;border-radius:10px;object-fit:contain;filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));}
+  header h1{margin:0;font-size:28px}
+  header p.lead{margin-top:8px;margin-bottom:0;color:rgba(255,255,255,0.9);font-size:16px}
 
-#welcome-text {
-    text-align: center;
-    font-size: 1.5em;
-    margin: 100px 20px;
-    color: #e0e0e0;
-    transition: opacity 0.5s;
-}
+  /* Nav */
+  nav{
+    background:var(--nav);
+    box-shadow:0 3px 12px rgba(0,0,0,0.25);
+  }
+  nav ul{
+    margin:0;padding:8px;display:flex;gap:12px;list-style:none;justify-content:center;
+  }
+  nav a{
+    display:inline-block;color:white;text-decoration:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:600;
+    transition:all .25s ease;
+  }
+  nav a:hover{transform:translateY(-4px); background:var(--accent); box-shadow:0 6px 18px rgba(0,0,0,0.35);}
 
-#info-box {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 25px;
-    background-color: #1E3A5F;
-    border: 2px solid #4A90E2;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    color: #f0f0f0;
-    display: none;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.5s ease;
-}
+  /* Main area */
+  main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 20px; position:relative;}
+  .center-area{width:100%;max-width:980px;text-align:center;}
 
-#info-box.show {
-    display: block;
-    opacity: 1;
+  #welcome-text{
+    margin-top:60px;
+    font-size:20px;
+    color:rgba(255,255,255,0.95);
+    padding:64px 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.45);
+  }
+
+  /* Info box (slides up from below with fade) */
+  #info-box{
+    width:100%;
+    margin: 28px auto 0;
+    max-width:880px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:var(--radius);
+    box-shadow: 0 18px 50px rgba(6,18,40,0.6);
+    overflow:hidden;
+    transform: translateY(40px);
+    opacity:0;
+    display:none;
+    transition: transform .5s cubic-bezier(.16,.9,.3,1), opacity .45s ease;
+    padding:26px;
+    color: #eaf2ff;
+  }
+  #info-box.show{
+    display:block;
     transform: translateY(0);
-}
+    opacity:1;
+  }
+  #info-box h2{margin-top:0;color:var(--accent);font-size:20px}
+  #info-box p, #info-box li{color: #dfeeff; line-height:1.6}
 
-footer {
-    background-color: #2C3E50;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto;
-}
-footer a { color: #4A90E2; text-decoration: none; }
+  /* Footer */
+  footer{
+    background:var(--nav);
+    padding:18px 20px;
+    text-align:center;color:#fff;font-size:14px;
+  }
+  footer a{color:var(--accent);text-decoration:underline}
 
-#chatbot {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 300px;
-    max-height: 400px;
-    background-color: #2C3E50;
-    border: 2px solid #4A90E2;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    font-size: 0.9em;
-    z-index: 1000;
-}
+  /* Chatbot (GPT) panel — toggleable, left */
+  .gpt-panel{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    width:320px;
+    max-height:420px;
+    background: linear-gradient(180deg,#132737,#16384f);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+    box-shadow:0 14px 40px rgba(0,0,0,0.6);
+    display:flex;flex-direction:column;overflow:hidden;z-index:1200;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .gpt-panel.hidden{transform: translateY(18px) scale(.98); opacity:0.0; pointer-events:none}
+  .gpt-header{background:linear-gradient(90deg,var(--accent),#357ABD); color:white;padding:10px;font-weight:700;text-align:center;}
+  .gpt-body{flex:1;padding:10px;overflow:auto;font-size:14px;}
+  .gpt-input{display:flex;border-top:1px solid rgba(255,255,255,0.04);}
+  .gpt-input input{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-size:14px}
+  .gpt-input button{background:var(--accent);color:white;border:none;padding:10px 14px;cursor:pointer}
+  .msg.user{ text-align:right; margin:8px 0; }
+  .msg.bot{ text-align:left; margin:8px 0; }
+  .msg .bubble{display:inline-block;padding:8px 12px;border-radius:10px;max-width:85%;line-height:1.3}
+  .msg.user .bubble{background:linear-gradient(90deg,#2b6fb2,#3f8bd7); color:white}
+  .msg.bot .bubble{background:rgba(255,255,255,0.04); color:#e8f3ff}
 
-#chatbot-header {
-    background-color: #4A90E2;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-#chat-messages {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-}
-#chat-input {
-    display: flex;
-    border-top: 1px solid #ccc;
-}
-#chat-input input {
-    flex: 1;
-    border: none;
-    padding: 10px;
-    font-size: 0.9em;
-}
-#chat-input button {
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-#chat-input button:hover { background-color: #357ABD; }
-
-.user-msg, .bot-msg {
-    margin: 5px 0;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s forwards;
-}
-.user-msg { text-align: right; }
-.bot-msg { text-align: left; }
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+  /* Tawk widget space note (it injects itself) */
+  /* Small responsive adjustments */
+  @media (max-width:700px){
+    .gpt-panel{left:12px; width:88%}
+    header img{height:48px}
+    #welcome-text{padding:40px 12px;font-size:18px}
+  }
 </style>
 </head>
 <body>
 
 <header>
-    <img src="logo.png" alt="SupportLink Logo">
-    <h1>Welcome to SupportLink</h1>
+  <div class="brand">
+    <img src="logo.png" alt="SupportLink logo (replace with your art)">
+    <div>
+      <h1>SupportLink</h1>
+      <p class="lead">Your Partner in Personal Growth and Wellbeing</p>
+    </div>
+  </div>
 </header>
 
-<nav>
-    <ul>
-        <li><a onclick="toggleInfo('mission')">Mission</a></li>
-        <li><a onclick="toggleInfo('services')">Services</a></li>
-        <li><a onclick="toggleInfo('community')">Community</a></li>
-    </ul>
+<nav aria-label="Main navigation">
+  <ul>
+    <li><a id="nav-mission" role="button">Mission</a></li>
+    <li><a id="nav-services" role="button">Our Services</a></li>
+    <li><a id="nav-community" role="button">Join Our Community</a></li>
+  </ul>
 </nav>
 
-<div id="welcome-text">Your Partner in Personal Growth and Wellbeing</div>
-<div id="info-box"></div>
+<main>
+  <div class="center-area">
+    <div id="welcome-text">Your Partner in Personal Growth and Wellbeing</div>
+    <div id="info-box" aria-live="polite"></div>
+  </div>
+</main>
 
-<div id="chatbot">
-    <div id="chatbot-header">Chat with SupportLink</div>
-    <div id="chat-messages"></div>
-    <div id="chat-input">
-        <input type="text" id="userInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
+<!-- GPT panel (toggle button floating attached to it) -->
+<div id="gptToggle" style="position:fixed; left:20px; bottom:452px; z-index:1300;">
+  <button id="toggleBtn" style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:10px; cursor:pointer;">Open Bot</button>
+</div>
+
+<div id="gptPanel" class="gpt-panel hidden" aria-hidden="true">
+  <div class="gpt-header">SupportLink Assistant</div>
+  <div id="gptMessages" class="gpt-body" aria-live="polite"></div>
+  <div class="gpt-input">
+    <input id="gptInput" placeholder="Type a message..." autocomplete="off" />
+    <button id="gptSend">Send</button>
+  </div>
 </div>
 
 <footer>
-    <p>&copy; 2025 SupportLink. All rights reserved.</p>
-    <p><a href="mailto:contact@supportlink.org">Contact Us</a></p>
-    <p>Join our <a href="https://discord.gg/54UTv5M8Gw" target="_blank">Discord server</a> for updates and more!</p>
+  <div>&copy; 2025 SupportLink. All rights reserved.</div>
+  <div><a href="mailto:contact@supportlink.org">Contact Us</a></div>
+  <div>Join our <a href="https://discord.gg/54UTv5M8Gw" target="_blank" rel="noopener">Discord server</a> for updates and more!</div>
 </footer>
 
+<!-- Inline script -->
 <script>
-const infoBox = document.getElementById('info-box');
-const welcomeText = document.getElementById('welcome-text');
+  // --- Info box content (from your PDF pages 2-4) ---
+  const infoContent = {
+    mission: `
+      <h2>Our Mission</h2>
+      <p>Our mission is to provide accessible, high-quality support services that foster emotional wellbeing, resilience, and success. We believe everyone deserves a supportive and non-judgmental space to explore their thoughts, feelings, and concerns.</p>
+    `,
+    services: `
+      <h2>Our Services</h2>
+      <p>We offer a comprehensive range of services, including:</p>
+      <ul>
+        <li><strong>Free Expert Advice:</strong> Guidance and support to help you navigate life's challenges.</li>
+        <li><strong>No-Cost Therapy Sessions:</strong> Licensed therapists will work with you to build resilience and achieve your personal goals.</li>
+        <li><strong>Venting and Support:</strong> Sometimes, all you need is someone to listen. We're here to offer a supportive ear.</li>
+        <li><strong>Additional Resources:</strong> Stay tuned for updates on new resources and initiatives!</li>
+      </ul>
+      <p>All our services are <strong>no-cost</strong>, transparent, and supported by donations.</p>
+    `,
+    community: `
+      <h2>Join Our Community</h2>
+      <p>If you're looking for a supportive and non-judgmental space to explore your thoughts and feelings, we're here for you. Contact us to learn more about our services.</p>
+      <p>Join our <a href="https://discord.gg/54UTv5M8Gw" target="_blank" rel="noopener">Discord server</a> for updates and more!</p>
+    `
+  };
 
-const infoContent = {
-    mission: "<h2>Our Mission</h2><p>Our mission is to provide accessible, high-quality support services that foster emotional wellbeing, resilience, and success. We believe everyone deserves a supportive and non-judgmental space to explore their thoughts, feelings, and concerns.</p>",
-    services: "<h2>Our Services</h2><ul><li><strong>Free Expert Advice:</strong> Guidance and support to help you navigate life's challenges.</li><li><strong>No-Cost Therapy Sessions:</strong> Licensed therapists will work with you to build resilience and achieve your personal goals.</li><li><strong>Venting and Support:</strong> Sometimes, all you need is someone to listen. We're here to offer a supportive ear.</li><li><strong>Additional Resources:</strong> Stay tuned for updates on new resources and initiatives!</li></ul>",
-    community: "<h2>Join Our Community</h2><p>If you're looking for a supportive and non-judgmental space, we're here for you. Contact us to learn more about our services.</p><p>Join our <a href='https://discord.gg/54UTv5M8Gw' target='_blank'>Discord server</a> for updates and more!</p>"
-};
+  // Elements
+  const infoBox = document.getElementById('info-box');
+  const welcomeText = document.getElementById('welcome-text');
+  const navMission = document.getElementById('nav-mission');
+  const navServices = document.getElementById('nav-services');
+  const navCommunity = document.getElementById('nav-community');
 
-let currentSection = null;
+  // Utility: show section with smooth slide down/up
+  let animating = false;
+  async function showSection(key){
+    if(animating) return;
+    if(!infoContent[key]) return;
 
-function toggleInfo(section) {
-    if(currentSection === section) return;
+    // if already showing same section do nothing
+    if(infoBox.classList.contains('show') && currentSection === key) return;
 
-    if(infoBox.classList.contains('show')) {
-        infoBox.classList.remove('show');
-        setTimeout(()=>displayInfo(section), 500);
+    animating = true;
+    // If visible, hide first
+    if(infoBox.classList.contains('show')){
+      infoBox.classList.remove('show');
+      // wait for transition out
+      await new Promise(r => setTimeout(r, 450));
     } else {
-        displayInfo(section);
+      // hide the welcome message
+      welcomeText.style.display = 'none';
     }
-}
 
-function displayInfo(section) {
-    infoBox.innerHTML = infoContent[section];
+    // fill new content then show
+    infoBox.innerHTML = infoContent[key];
     infoBox.classList.add('show');
-    welcomeText.style.display = 'none';
-    currentSection = section;
+    currentSection = key;
+    // smooth scroll a bit
     window.scrollTo({ top: infoBox.offsetTop - 20, behavior: 'smooth' });
-}
 
-document.addEventListener('click', function(e) {
-    if(!infoBox.contains(e.target) && !e.target.matches('nav a')) {
-        infoBox.classList.remove('show');
-        welcomeText.style.display = 'block';
-        currentSection = null;
+    // wait for transition in to finish before allowing next
+    await new Promise(r => setTimeout(r, 480));
+    animating = false;
+  }
+
+  // hide
+  function hideInfoBox(){
+    if(infoBox.classList.contains('show')){
+      infoBox.classList.remove('show');
+      currentSection = null;
+      setTimeout(()=> welcomeText.style.display = 'block', 420);
     }
-});
+  }
 
-// GPT Chatbot
-async function sendMessage() {
-    const inputElem = document.getElementById('userInput');
-    const input = inputElem.value.trim();
-    if(!input) return;
+  let currentSection = null;
+  navMission.addEventListener('click', () => showSection('mission'));
+  navServices.addEventListener('click', () => showSection('services'));
+  navCommunity.addEventListener('click', () => showSection('community'));
 
-    const messages = document.getElementById('chat-messages');
-    messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
+  // click outside to hide (but not when clicking nav)
+  document.addEventListener('click', (e) => {
+    if(e.target.closest('nav')) return;
+    if(e.target.closest('#info-box')) return;
+    hideInfoBox();
+  });
 
-    try {
-        const response = await fetch('http://localhost:3000/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: input })
-        });
+  // --- GPT chat panel logic (connects to your local backend) ---
+  const gptPanel = document.getElementById('gptPanel');
+  const toggleBtn = document.getElementById('toggleBtn');
+  const gptMessages = document.getElementById('gptMessages');
+  const gptInput = document.getElementById('gptInput');
+  const gptSend = document.getElementById('gptSend');
 
-        const data = await response.json();
-        messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${data.reply}</div>`;
-    } catch (err) {
-        messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> Sorry, something went wrong.</div>`;
+  // helper to append message
+  function appendMessage(role, text){
+    const wrapper = document.createElement('div');
+    wrapper.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = text.replace(/\n/g,'<br>');
+    wrapper.appendChild(bubble);
+    gptMessages.appendChild(wrapper);
+    gptMessages.scrollTop = gptMessages.scrollHeight;
+  }
+
+  // typing indicator
+  function appendTyping(){
+    const el = document.createElement('div');
+    el.className = 'msg bot typing';
+    el.id = 'typingIndicator';
+    el.innerHTML = `<div class="bubble">...</div>`;
+    gptMessages.appendChild(el);
+    gptMessages.scrollTop = gptMessages.scrollHeight;
+  }
+  function removeTyping(){
+    const t = document.getElementById('typingIndicator');
+    if(t) t.remove();
+  }
+
+  // toggle open/close
+  toggleBtn.addEventListener('click', ()=>{
+    const hidden = gptPanel.classList.toggle('hidden');
+    gptPanel.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+    toggleBtn.textContent = hidden ? 'Open Bot' : 'Close Bot';
+  });
+
+  // send
+  let waiting = false;
+  async function sendGPT(){
+    if(waiting) return;
+    const val = gptInput.value.trim();
+    if(!val) return;
+    appendMessage('user', val);
+    gptInput.value = '';
+    appendTyping();
+    waiting = true;
+    gptSend.disabled = true;
+
+    try{
+      const res = await fetch('http://localhost:3000/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ message: val })
+      });
+      const data = await res.json();
+      removeTyping();
+      if(data && data.reply){
+        appendMessage('bot', escapeHtml(data.reply));
+      } else {
+        appendMessage('bot', 'Sorry — I did not receive a reply from the assistant.');
+      }
+    }catch(err){
+      console.error('GPT chat error:', err);
+      removeTyping();
+      appendMessage('bot', 'Sorry, something went wrong connecting to the assistant.');
+    } finally {
+      waiting = false;
+      gptSend.disabled = false;
+      gptMessages.scrollTop = gptMessages.scrollHeight;
     }
+  }
 
-    inputElem.value = '';
-    messages.scrollTop = messages.scrollHeight;
-}
+  gptSend.addEventListener('click', sendGPT);
+  gptInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') sendGPT(); });
+
+  // small helper to escape HTML in responses (avoid injection)
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+  }
+
+  // initial tiny welcome in the GPT panel
+  appendMessage('bot', 'Hi — I\'m SupportLink Assistant. Type something to begin, or open the human chat on the right for live help.');
+
+  // --- Tawk.to widget (human chat) ---
+  /* paste your Tawk embed script - it's inserted below */
 </script>
 
+<!-- Tawk.to embedded script (your existing widget) -->
+<!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -261,6 +390,7 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+<!--End of Tawk.to Script-->
 
 </body>
 </html>
