@@ -6,124 +6,149 @@
 <title>SupportLink - Personal Growth & Wellbeing</title>
 <link href="https://fonts.googleapis.com/css2?family=Funtastic&display=swap" rel="stylesheet">
 <style>
-    body {
-        margin: 0;
-        font-family: 'Funtastic', cursive;
-        background-color: #1E3A5F; /* dark blue */
-        color: #e0e0e0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
+body {
+    margin: 0;
+    font-family: 'Funtastic', cursive;
+    background-color: #1E3A5F;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-    header {
-        background-color: #4A90E2;
-        color: white;
-        padding: 60px 20px;
-        text-align: center;
-    }
-    header img { height: 60px; vertical-align: middle; margin-right: 10px; }
-    header h1 { margin: 0; display: inline; }
+header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+header img { height: 60px; vertical-align: middle; margin-right: 10px; }
+header h1 { margin: 0; display: inline; }
 
-    nav {
-        background-color: #2C3E50;
-    }
-    nav ul {
-        margin: 0; padding: 0;
-        display: flex; list-style: none; justify-content: center;
-    }
-    nav ul li a {
-        display: block;
-        padding: 15px 20px;
-        color: white;
-        text-decoration: none;
-        transition: background 0.3s;
-        cursor: pointer;
-    }
-    nav ul li a:hover { background-color: #4A90E2; }
+nav {
+    background-color: #2C3E50;
+}
+nav ul {
+    margin: 0; padding: 0;
+    display: flex; list-style: none; justify-content: center;
+}
+nav ul li a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 5px;
+}
+nav ul li a:hover {
+    background-color: #4A90E2;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
-    #welcome-text {
-        text-align: center;
-        font-size: 1.5em;
-        margin: 100px 20px;
-        color: #e0e0e0;
-        transition: opacity 0.3s;
-    }
+#welcome-text {
+    text-align: center;
+    font-size: 1.5em;
+    margin: 100px 20px;
+    color: #e0e0e0;
+    transition: opacity 0.5s;
+}
 
-    /* Info box styling */
-    #info-box {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #1E3A5F;
-        border: 2px solid #4A90E2;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        display: none;
-        overflow: hidden;
-        color: #f0f0f0;
-    }
+#info-box {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: #1E3A5F;
+    border: 2px solid #4A90E2;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    color: #f0f0f0;
+    display: none;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease;
+}
 
-    footer {
-        background-color: #2C3E50;
-        color: white;
-        text-align: center;
-        padding: 20px;
-        margin-top: auto;
-    }
-    footer a { color: #4A90E2; text-decoration: none; }
+#info-box.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
 
-    /* Chatbot left side */
-    #chatbot {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        width: 300px;
-        max-height: 400px;
-        background-color: #2C3E50;
-        border: 2px solid #4A90E2;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        font-size: 0.9em;
-        z-index: 1000;
-    }
-    #chatbot-header {
-        background-color: #4A90E2;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        font-weight: bold;
-    }
-    #chat-messages {
-        flex: 1;
-        padding: 10px;
-        overflow-y: auto;
-    }
-    #chat-input {
-        display: flex;
-        border-top: 1px solid #ccc;
-    }
-    #chat-input input {
-        flex: 1;
-        border: none;
-        padding: 10px;
-        font-size: 0.9em;
-    }
-    #chat-input button {
-        background-color: #4A90E2;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
-    #chat-input button:hover { background-color: #357ABD; }
+footer {
+    background-color: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+footer a { color: #4A90E2; text-decoration: none; }
 
-    .user-msg { text-align: right; margin: 5px 0; }
-    .bot-msg { text-align: left; margin: 5px 0; }
+#chatbot {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: #2C3E50;
+    border: 2px solid #4A90E2;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-size: 0.9em;
+    z-index: 1000;
+}
 
+#chatbot-header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+#chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+#chat-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+}
+#chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
+}
+#chat-input button {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+#chat-input button:hover { background-color: #357ABD; }
+
+.user-msg, .bot-msg {
+    margin: 5px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+.user-msg { text-align: right; }
+.bot-msg { text-align: left; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 </head>
 <body>
@@ -135,16 +160,15 @@
 
 <nav>
     <ul>
-        <li><a onclick="showInfo('mission')">Mission</a></li>
-        <li><a onclick="showInfo('services')">Services</a></li>
-        <li><a onclick="showInfo('community')">Community</a></li>
+        <li><a onclick="toggleInfo('mission')">Mission</a></li>
+        <li><a onclick="toggleInfo('services')">Services</a></li>
+        <li><a onclick="toggleInfo('community')">Community</a></li>
     </ul>
 </nav>
 
 <div id="welcome-text">Your Partner in Personal Growth and Wellbeing</div>
 <div id="info-box"></div>
 
-<!-- Chatbot -->
 <div id="chatbot">
     <div id="chatbot-header">Chat with SupportLink</div>
     <div id="chat-messages"></div>
@@ -172,31 +196,19 @@ const infoContent = {
 
 let currentSection = null;
 
-// Smooth slide animation function
-function showInfo(section) {
-    if(currentSection === section) return; // same section, do nothing
-    if(infoBox.style.display === 'block') {
-        infoBox.style.height = infoBox.offsetHeight + 'px';
-        infoBox.style.opacity = '1';
-        infoBox.style.transition = 'all 0.3s ease';
-        setTimeout(() => {
-            infoBox.style.height = '0';
-            infoBox.style.opacity = '0';
-            setTimeout(() => {
-                displayNewSection(section);
-            }, 300);
-        }, 10);
+function toggleInfo(section) {
+    if(currentSection === section) return;
+    if(infoBox.classList.contains('show')) {
+        infoBox.classList.remove('show');
+        setTimeout(()=>displayInfo(section), 500);
     } else {
-        displayNewSection(section);
+        displayInfo(section);
     }
 }
 
-function displayNewSection(section) {
+function displayInfo(section) {
     infoBox.innerHTML = infoContent[section];
-    infoBox.style.display = 'block';
-    infoBox.style.height = 'auto';
-    infoBox.style.opacity = '1';
-    infoBox.style.transition = 'all 0.5s ease';
+    infoBox.classList.add('show');
     welcomeText.style.display = 'none';
     currentSection = section;
     window.scrollTo({ top: infoBox.offsetTop - 20, behavior: 'smooth' });
@@ -205,13 +217,13 @@ function displayNewSection(section) {
 // Click outside to hide
 document.addEventListener('click', function(e) {
     if(!infoBox.contains(e.target) && !e.target.matches('nav a')) {
-        infoBox.style.display = 'none';
+        infoBox.classList.remove('show');
         welcomeText.style.display = 'block';
         currentSection = null;
     }
 });
 
-// WORKING CHATBOT
+// Chatbot
 const botResponses = [
     { keywords: ["hello","hi"], response: "Hello! How can I support you today?" },
     { keywords: ["stress"], response: "Try taking deep breaths and a short break. You're doing your best!" },
@@ -223,20 +235,18 @@ const botResponses = [
 function sendMessage() {
     let input = document.getElementById('userInput').value.trim();
     if(!input) return;
+
     let messages = document.getElementById('chat-messages');
     messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
 
     let lower = input.toLowerCase();
     let found = false;
     for(let bot of botResponses) {
-        for(let keyword of bot.keywords) {
-            if(lower.includes(keyword)) {
-                messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${bot.response}</div>`;
-                found = true;
-                break;
-            }
+        if(bot.keywords.some(k => lower.includes(k))) {
+            messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${bot.response}</div>`;
+            found = true;
+            break;
         }
-        if(found) break;
     }
     if(!found) messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> I'm here to listen. Could you tell me more?</div>`;
 
@@ -245,7 +255,6 @@ function sendMessage() {
 }
 </script>
 
-<!-- Tawk.to -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
