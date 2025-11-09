@@ -43,7 +43,7 @@ nav ul li a {
     border-radius: 5px;
 }
 nav ul li a:hover {
-    background-color: #4A90E2;
+    background-color: #357ABD;
     transform: translateY(-3px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
@@ -223,32 +223,26 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Chatbot
-const botResponses = [
-    { keywords: ["hello","hi"], response: "Hello! How can I support you today?" },
-    { keywords: ["stress"], response: "Try taking deep breaths and a short break. You're doing your best!" },
-    { keywords: ["anxiety"], response: "Remember, you're not alone. Talking helps!" },
-    { keywords: ["help"], response: "We are here to support you. You can also chat with a human using the live chat." },
-    { keywords: ["thanks","thank you"], response: "You're welcome! I'm here whenever you need me." }
-];
-
-function sendMessage() {
+// GPT Chatbot
+async function sendMessage() {
     let input = document.getElementById('userInput').value.trim();
     if(!input) return;
 
     let messages = document.getElementById('chat-messages');
     messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
 
-    let lower = input.toLowerCase();
-    let found = false;
-    for(let bot of botResponses) {
-        if(bot.keywords.some(k => lower.includes(k))) {
-            messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${bot.response}</div>`;
-            found = true;
-            break;
-        }
+    try {
+        const response = await fetch('http://localhost:3000/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: input })
+        });
+
+        const data = await response.json();
+        messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${data.reply}</div>`;
+    } catch (err) {
+        messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> Sorry, something went wrong.</div>`;
     }
-    if(!found) messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> I'm here to listen. Could you tell me more?</div>`;
 
     document.getElementById('userInput').value = '';
     messages.scrollTop = messages.scrollHeight;
