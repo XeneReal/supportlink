@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SupportLink - Personal Growth & Wellbeing</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Funtastic&display=swap" rel="stylesheet">
 <style>
     body {
         margin: 0;
-        font-family: 'Roboto', sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
+        font-family: 'Funtastic', cursive;
+        background-color: #1E3A5F; /* dark blue */
+        color: #e0e0e0;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -46,7 +46,7 @@
         text-align: center;
         font-size: 1.5em;
         margin: 100px 20px;
-        color: #333;
+        color: #e0e0e0;
         transition: opacity 0.3s;
     }
 
@@ -55,13 +55,13 @@
         max-width: 800px;
         margin: 20px auto;
         padding: 20px;
-        background-color: white;
+        background-color: #1E3A5F;
         border: 2px solid #4A90E2;
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         display: none;
         overflow: hidden;
-        transition: all 0.5s ease;
+        color: #f0f0f0;
     }
 
     footer {
@@ -80,10 +80,10 @@
         left: 20px;
         width: 300px;
         max-height: 400px;
-        background-color: white;
+        background-color: #2C3E50;
         border: 2px solid #4A90E2;
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -120,8 +120,10 @@
         cursor: pointer;
     }
     #chat-input button:hover { background-color: #357ABD; }
+
     .user-msg { text-align: right; margin: 5px 0; }
     .bot-msg { text-align: left; margin: 5px 0; }
+
 </style>
 </head>
 <body>
@@ -140,7 +142,6 @@
 </nav>
 
 <div id="welcome-text">Your Partner in Personal Growth and Wellbeing</div>
-
 <div id="info-box"></div>
 
 <!-- Chatbot -->
@@ -171,19 +172,19 @@ const infoContent = {
 
 let currentSection = null;
 
+// Smooth slide animation function
 function showInfo(section) {
     if(currentSection === section) return; // same section, do nothing
     if(infoBox.style.display === 'block') {
-        // slide down first
         infoBox.style.height = infoBox.offsetHeight + 'px';
         infoBox.style.opacity = '1';
+        infoBox.style.transition = 'all 0.3s ease';
         setTimeout(() => {
-            infoBox.style.transition = 'all 0.5s ease';
             infoBox.style.height = '0';
             infoBox.style.opacity = '0';
             setTimeout(() => {
                 displayNewSection(section);
-            }, 500);
+            }, 300);
         }, 10);
     } else {
         displayNewSection(section);
@@ -195,12 +196,13 @@ function displayNewSection(section) {
     infoBox.style.display = 'block';
     infoBox.style.height = 'auto';
     infoBox.style.opacity = '1';
+    infoBox.style.transition = 'all 0.5s ease';
     welcomeText.style.display = 'none';
     currentSection = section;
     window.scrollTo({ top: infoBox.offsetTop - 20, behavior: 'smooth' });
 }
 
-// Click outside to hide info box
+// Click outside to hide
 document.addEventListener('click', function(e) {
     if(!infoBox.contains(e.target) && !e.target.matches('nav a')) {
         infoBox.style.display = 'none';
@@ -209,29 +211,41 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Chatbot JS
+// WORKING CHATBOT
+const botResponses = [
+    { keywords: ["hello","hi"], response: "Hello! How can I support you today?" },
+    { keywords: ["stress"], response: "Try taking deep breaths and a short break. You're doing your best!" },
+    { keywords: ["anxiety"], response: "Remember, you're not alone. Talking helps!" },
+    { keywords: ["help"], response: "We are here to support you. You can also chat with a human using the live chat." },
+    { keywords: ["thanks","thank you"], response: "You're welcome! I'm here whenever you need me." }
+];
+
 function sendMessage() {
     let input = document.getElementById('userInput').value.trim();
     if(!input) return;
-
     let messages = document.getElementById('chat-messages');
     messages.innerHTML += `<div class="user-msg"><strong>You:</strong> ${input}</div>`;
 
-    // Simple bot responses
-    let response = "";
-    const lower = input.toLowerCase();
-    if(lower.includes("stress")) response = "Try taking deep breaths and a short break. You're doing your best!";
-    else if(lower.includes("anxiety")) response = "Remember, you're not alone. Talking helps!";
-    else if(lower.includes("help")) response = "We are here to support you. You can also chat with a human using the live chat.";
-
-    if(response) messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${response}</div>`;
+    let lower = input.toLowerCase();
+    let found = false;
+    for(let bot of botResponses) {
+        for(let keyword of bot.keywords) {
+            if(lower.includes(keyword)) {
+                messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${bot.response}</div>`;
+                found = true;
+                break;
+            }
+        }
+        if(found) break;
+    }
+    if(!found) messages.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> I'm here to listen. Could you tell me more?</div>`;
 
     document.getElementById('userInput').value = '';
-    messages.scrollTop = messages.scrollHeight; // auto-scroll
+    messages.scrollTop = messages.scrollHeight;
 }
 </script>
 
-<!-- Tawk.to Script -->
+<!-- Tawk.to -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
